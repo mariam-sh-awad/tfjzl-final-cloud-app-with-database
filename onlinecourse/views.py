@@ -133,6 +133,12 @@ def submit(request, course_id):
             args=(course_id, submission_id)
         )
     )
+def extract_answers(request):
+    submitted_anwsers = []
+
+    for key in request.POST:
+        if key.startswith('choice'):
+            value = request.POST[key]	
 def show_exam_result(request, course_id, submission_id):
 		context = {}
 		course = get_object_or_404(Course, pk=course_id)
@@ -155,12 +161,7 @@ def show_exam_result(request, course_id, submission_id):
 		context['choices'] = choices
 
 		return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
-def extract_answers(request):
-    submitted_anwsers = []
 
-    for key in request.POST:
-        if key.startswith('choice'):
-            value = request.POST[key]
             choice_id = int(value)
             submitted_anwsers.append(choice_id)
 
